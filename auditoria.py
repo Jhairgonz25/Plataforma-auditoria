@@ -21,23 +21,26 @@ st.subheader(f"Módulo de Evaluación: {campaña}")
 # 3. Interfaz dinámica dependiendo de la campaña seleccionada
 if campaña in ["Anulaciones", "Término de Descuento"]:
     st.write("Sube la grabación de la llamada para iniciar la transcripción y el análisis.")
-    archivo_audio = st.file_uploader("Selecciona un archivo de audio (MP3/WAV)", type=["mp3", "wav"])
+    
+    # Aquí agregamos muchos más formatos aceptados
+    archivo_audio = st.file_uploader("Selecciona un archivo de audio", type=["mp3", "wav", "m4a", "ogg", "flac"])
     
     if archivo_audio is not None:
-        st.success("¡Audio cargado correctamente!")
+        st.success(f"¡Audio {archivo_audio.name} cargado correctamente!")
         st.button("Analizar con IA")
-        # Aquí conectaremos Whisper (para texto) y el LLM (para la pauta) más adelante
+        # Aquí conectaremos Whisper más adelante
 
 elif campaña == "Blindaje":
-    st.write("Ingresa el historial del chat para procesar la evaluación.")
-    texto_chat = st.text_area("Pega el texto del chat aquí:", height=200)
+    st.write("Sube el historial del chat en formato PDF para procesar la evaluación.")
     
-    if st.button("Evaluar Chat"):
-        if texto_chat:
-            st.success("Chat procesado correctamente.")
-            # Aquí conectaremos el LLM directamente con tu matriz de calidad
-        else:
-            st.warning("Por favor, ingresa el texto del chat antes de evaluar.")
+    # Cambiamos el cuadro de texto por un cargador de archivos PDF
+    archivo_pdf = st.file_uploader("Selecciona el archivo PDF del chat", type=["pdf"])
+    
+    if archivo_pdf is not None:
+        st.success(f"¡PDF {archivo_pdf.name} cargado correctamente!")
+        if st.button("Evaluar Chat"):
+            st.info("Procesando lectura del PDF...")
+            # Aquí conectaremos la librería para leer el PDF y el LLM
 
 # 4. Sección de Base de Datos y Exportación (Simulada por ahora)
 st.markdown("---")
